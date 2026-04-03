@@ -8,3 +8,5 @@ First, download "monofetch.py". After that, type "pip install colorama" or "sudo
 I should make an installer in April, I think. With every new release monofech will have more logotypes.
 
 If you're still have any questions, contact me using the contact in my proffile. Enjoy monofetch!
+
+![ ](./IMG_20260403_150304_296.jpg)
