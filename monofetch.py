@@ -1,6 +1,3 @@
-import colorama
-import linecache
-
 DEBIAN="""
 
         ***********
@@ -155,6 +152,74 @@ UBUNTU="""
                
 """
 
+DEEPIN="""
+
+             ************
+         ********       *****
+      **********       *********
+    ***********     **************
+   ***********    *****          **
+  **  ********   ** ** **         **
+ **    *******  ** *** ** **       **
+***     ****** ** ***  ** ***       **
+**       *****  ****  *** ****      **
+**        ****** *   ***  ****      **
+***         ***********  *****      **
+ **            *****   ******      **
+  *****            **********     **
+   ************************      **
+    **********************     ***
+      *******************    ****
+        **************    ******
+            
+"""
+
+NIXOS="""
+
+           ****            ****         ****
+             ****           ****       ****
+               ****          ****     ****
+          **************      ***********
+          **************       ****             ****
+                                ****           ****
+        ****                     ****         ****
+       ****                                 **********
+**********                                  ***********
+**********                                 ****
+    ****                                  ****
+   ****   ****                           ****
+  ****     ****                              
+ ****      ******        ************************
+          **** ****      ************************
+         ****   ****               ****
+        ****     ****               ****
+       ****       ****               ****
+       
+"""
+
+PARROT="""
+
+    ****
+ *****************
+  *****************
+   *****************
+    *****************
+     ***     **************
+      **      **************
+       *       **************
+                **************
+                 **************
+                 ********  ****
+                  *******   ****
+                   *******    ***
+                    *******    **
+                    ********     *
+                    ***   ***
+                     ***   ***
+                      **    
+                      
+"""
+
 LINUX="""
 
         *****
@@ -257,51 +322,137 @@ de="DE=" + de
 wm_found="WM=" + wm_found
 
 try:
+    with open('/sys/class/thermal/thermal_zone0/temp', 'r') as f:
+        RAWTEMP = f.read().strip()
+        TEMPC = int(RAWTEMP) / 1000
+        TEMPK = int(TEMPC) + 273.15
+        TEMPF = int(TEMPC) * 1.8; TEMPF = int(TEMPF) + 32
+        TEMPC = str(TEMPC); TEMPK = str(TEMPK); TEMPF = str(TEMPF)
+        TEMP=("TEMPERATURE = °C " + TEMPC + "; °K " + TEMPK + "; °F " + TEMPF)
+except FileNotFoundError:
+    TEMP=("Can't find temperature")
+except PermissionError:
+    TEMP=("Can't find temperature")
+    
+try:
+    with open('/sys/class/power_supply/BAT0/capacity', 'r') as f:
+        BPRECENT = str(f.read().strip()); BPRECENT = BPRECENT + "%"
+except FileNotFoundError:
+    BPRECENT=("Unknown")
+except PermissionError:
+    BPRECENT=("Unknown")
+    
+try:
+    with open('/sys/class/power_supply/BAT0/status', 'r') as f:
+        BSTATUS = str(f.read().strip())
+except FileNotFoundError:
+    BSTATUS=("Unknown")
+except PermissionError:
+    BSTATUS=("Unknown")
+    
+BATTERY=(BPRECENT, BSTATUS)
+BATTERY=str(BATTERY)
+FIX=str.maketrans("", "", "()',")
+BATTERY=BATTERY.translate(FIX)
+BATTERY=str(BATTERY)
+BSTATUS = " (" + BSTATUS + ")"
+BATTERY=BPRECENT + BSTATUS
+BATTERY="BATTERY = " + BATTERY
+
+RED=("\033[31m")
+GREEN=("\033[32m")
+YELLOW=("\033[33m")
+BLUE=("\033[34m")
+MAGENTA=("\033[35m")
+CYAN=("\033[36m")
+ORANGE=("\033[93m")
+RESET = ("\033[0m")
+
+try:
     with open('/etc/rpi-issue'):
-        print(colorama.Style.BRIGHT + colorama.fore.RED + RASPBERRY)
-        print(colorama.Fore.RED + SYSINFO)
-        print(colorama.Fore.RED + de)
-        print(colorama.Fore.RED + wm_found)
-        
-except (FileNotFoundError, PermissionError):
+        print(RED + RASPBERRY + RESET)
+        print(RED + SYSINFO + RESET)
+        print(RED + de + RESET)
+        print(RED + wm_found + RESET)
+        print(RED + TEMP + RESET)
+        print(RED + BATTERY + RESET)
+except FileNotFoundError:
     if LINE == "ID=debian":
-        print(colorama.Style.BRIGHT + colorama.Fore.RED + DEBIAN)
-        print(colorama.Fore.RED + SYSINFO)
-        print(colorama.Fore.RED + de)
-        print(colorama.Fore.RED + wm_found)
+        print(RED + DEBIAN + RESET)
+        print(RED + SYSINFO + RESET)
+        print(RED + de + RESET)
+        print(RED + wm_found + RESET)
+        print(RED + TEMP + RESET)
+        print(RED + BATTERY + RESET)
     
     elif LINE == "ID=fedora":
-        print(colorama.Style.BRIGHT + colorama.Fore.CYAN + FEDORA)
-        print(colorama.Fore.CYAN + SYSINFO)
-        print(colorama.Fore.CYAN + de)
-        print(colorama.Fore.CYAN + wm_found)
+        print(CYAN + FEDORA + RESET)
+        print(CYAN + SYSINFO + RESET)
+        print(CYAN + de + RESET)
+        print(CYAN + wm_found + RESET)
+        print(CYAN + TEMP + RESET)
+        print(CYAN + BATTERY + RESET)
     
     elif LINE == "ID=arch":
-        print(colorama.Style.BRIGHT + colorama.Fore.RED + ARCH)
-        print(colorama.Fore.RED + SYSINFO)
-        print(colorama.Fore.RED + de)
-        print(colorama.Fore.RED + wm_found)
+        print(BLUE + ARCH + RESET)
+        print(BLUE + SYSINFO + RESET)
+        print(BLUE + de + RESET)
+        print(BLUE + wm_found + RESET)
+        print(BLUE + TEMP + RESET)
+        print(BLUE + BATTERY + RESET)
     
     elif LINE == "ID=kali":
-        print(colorama.Style.BRIGHT + colorama.Fore.BLUE + KALI)
-        print(colorama.Fore.BLUE + SYSINFO)
-        print(colorama.Fore.BLUE + de)
-        print(colorama.Fore.BLUE + wm_found)
+        print(BLUE + KALI + RESET)
+        print(BLUE + SYSINFO + RESET)
+        print(BLUE + de + RESET)
+        print(BLUE + wm_found + RESET)
+        print(BLUE + TEMP + RESET)
+        print(BLUE + BATTERY + RESET)
     
     elif LINE == "ID=gentoo":
-        print(colorama.Style.BRIGHT + colorama.Fore.MAGENTA + GENTOO)
-        print(colorama.Fore.MAGENTA + SYSINFO)
-        print(colorama.Fore.MAGENTA + de)
-        print(colorama.Fore.MAGENTA + wm_found)
+        print(MAGENTA + GENTOO + RESET)
+        print(MAGENTA + SYSINFO + RESET)
+        print(MAGENTA + de + RESET)
+        print(MAGENTA + wm_found + RESET)
+        print(MAGENTA + TEMP + RESET)
+        print(MAGENTA + BATTERY + RESET)
         
     elif LINE == "ID=ubuntu":
-        print(colorama.Style.BRIGHT + colorama.Fore.RED + GENTOO)
-        print(colorama.Fore.RED + SYSINFO)
-        print(colorama.Fore.RED + de)
-        print(colorama.Fore.RED + wm_found)
+        print(ORANGE + UBUNTU + RESET)
+        print(ORANGE + SYSINFO + RESET)
+        print(ORANGE + de + RESET)
+        print(ORANGE + wm_found + RESET)
+        print(ORANGE + TEMP + RESET)
+        print(ORANGE + BATTERY + RESET)
+        
+    elif LINE == "ID=deepin":
+        print(CYAN + DEEPIN + RESET)
+        print(CYAN + SYSINFO + RESET)
+        print(CYAN + de + RESET)
+        print(CYAN + wm_found + RESET)
+        print(CYAN + TEMP + RESET)
+        print(CYAN + BATTERY + RESET)
+        
+    elif LINE == "ID=nixos":
+        print(BLUE + NIXOS + RESET)
+        print(BLUE + SYSINFO + RESET)
+        print(BLUE + de + RESET)
+        print(BLUE + wm_found + RESET)
+        print(BLUE + TEMP + RESET)
+        print(BLUE + BATTERY + RESET)
+        
+    elif LINE == "ID=parrot":
+        print(CYAN + PARROT + RESET)
+        print(CYAN + SYSINFO + RESET)
+        print(CYAN + de + RESET)
+        print(CYAN + wm_found + RESET)
+        print(CYAN + TEMP + RESET)
+        print(CYAN + BATTERY + RESET)
     
     else:
-        print(colorama.Style.BRIGHT + colorama.Fore.YELLOW + LINUX)
-        print(colorama.Fore.YELLOW + SYSINFO)
-        print(colorama.Fore.YELLOW + de)
-        print(colorama.Fore.YELLOW + wm_found)
+        print(YELLOW + LINUX + RESET)
+        print(YELLOW + SYSINFO + RESET)
+        print(YELLOW + de + RESET)
+        print(YELLOW + wm_found + RESET)
+        print(YELLOW + TEMP + RESET)
+        print(YELLOW + BATTERY + RESET)
