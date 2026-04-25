@@ -9,4 +9,11 @@ I should make an installer in April, I think. With every new release monofech wi
 
 If you're still have any questions, contact me using the contact in my proffile. Enjoy monofetch!
 
+# Updates
+UPD 0.2:
+3 new distros logos are added.
+No more imports.
+Battery info is now avaiable. Device's temperature is now shows.
+Installer will be added in version 0.3
+
 ![ ](./IMG_20260403_150304_296.jpg)
