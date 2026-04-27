@@ -1,4 +1,4 @@
-# What's monofetch and why did I made it?
+# What's monofetch and why did you made it?
 I always didn't like fastfetch. It looked too heavy and too popular. And it didn't support a lot of linux distributions. As an example, on RaspberrypiOS it showed Debian logo instead of RaspberryPiOS logo. And this happened to most linux distros, that aren't in the "MOST POPULAR DISTROS" list. So, I made this. This fetch doesn't use any imports(even import os isn't allowed here). It works with system files instead "import os", use colour codes instead "import colorama", etc.
 
 # How to use it?
