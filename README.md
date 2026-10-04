@@ -10,6 +10,12 @@ I should make an installer in May, I think. With every new release monofech will
 If you're still have any questions, contact me using the contact in my profile. Enjoy monofetch!
 
 # Updates
+UPD 0.3 announcement
+ Yeah, after almost half of year, I'm back. So, in this update I'll add support for three new distros(Mint, Alpine and openSUSE). Also I'll clean the output: no more unnesessary components of /etc/os-release — now only the information that you need.
+ I'm also thinking about rewriting monofetch in C. But firstly I need to make it polished in python. Because of it will never use imports, it's better to rewrite it in clear C for faster work and the ability to use keys(eg. --color). Once I'll make a website for it. Also, I'll delete the "Updates" section and post everything in Releases.
+
+ ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+ 
 UPD 0.2:
 3 new distros logos are added.
 No more imports.
